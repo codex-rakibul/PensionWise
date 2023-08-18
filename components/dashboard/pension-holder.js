@@ -9,7 +9,7 @@ function PensionHolder() {
     const description3 = 'Waiting. . .';
     const pensionProcess =(
         <div className='pt-32 px-12'>
-            <div className='pb-12 text-2xl font-semibold text-blue-700'>
+            <div className='pb-12 text-2xl font-semibold text-gray-500'>
                 Tracking on your application
             </div>
             <Steps
