@@ -9,7 +9,7 @@ export default function signup() {
             <Head>
                 <title>Sign Up</title>
             </Head>
-            <div className='bg-white flex justify-center items-center lg:pt-32 md:py-24 py-12'>
+            <div className='bg-white flex justify-center items-center lg:pt-32 py-24'>
             <section className=" ">
             <div className="flex flex-col items-center justify-center px-6 md:py-8 mx-auto lg:py-0">
             <div className="w-full  rounded shadow border md:mt-0 xl:p-0 bg-gray-500 border-gray-700">
