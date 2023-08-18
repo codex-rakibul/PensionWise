@@ -31,7 +31,7 @@ export default function signin() {
                             name="email"
                             id="email"
                             className="w-full bg-white  rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-1 focus:ring-indigo-200 text-base outline-none text-gray-300 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                            placeholder="showz@company.com"
+                            placeholder="pensionwise@company.com"
                             required=""
                             />
                         </div>
