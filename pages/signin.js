@@ -4,7 +4,46 @@ import React from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faFacebookF} from '@fortawesome/fontawesome-svg-core';
 import { faTwitter } from '@fortawesome/free-solid-svg-icons';
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { addAuthUserId } from '@/app/feature/allUsers/alluserSlice';
+
 export default function signin() {
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const loginData = useSelector((state) => state.allUserReducer);
+    const formik = useFormik({
+      initialValues: {
+        email: '',
+        password: '',
+      },
+      validationSchema: yup.object({
+        email: yup.string().email('Invalid email address').required('Required'),
+        password: yup.string().required('Required'),
+      }),
+      onSubmit: (values, { resetForm }) => {
+        const { email, password } = values;
+  
+        // Find a user with matching email and password
+        const matchedUser = loginData?.allUserData.find(
+          (user) => user.email === email && user.password === password
+        );
+            
+        if (matchedUser) {
+          // User is authenticated; you can save their ID in localStorage
+          localStorage.setItem("user_id", JSON.stringify(matchedUser.userId));
+          dispatch(addAuthUserId("Null"));
+          router.push('/');
+        } else {
+          // Handle invalid login credentials here (e.g., show an error message)
+          alert('Invalid email or password');
+        }
+  
+        resetForm({ values: { email: '', password: '' } });
+      },
+    });
     const renderData = (
         <>
         <Head>
@@ -18,7 +57,7 @@ export default function signin() {
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl ">
                         Sign in to your account
                         </h1>
-                        <form className="space-y-2 md:space-y-4" action="#">
+                        <form className="space-y-2 md:space-y-4" onSubmit={formik.handleSubmit}>
                         <div>
                             <label
                             htmlFor="email"
@@ -30,27 +69,32 @@ export default function signin() {
                             type="email"
                             name="email"
                             id="email"
+                            onChange={formik.handleChange}
+                            value={formik.values.email}
                             className="w-full bg-white  rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-1 focus:ring-indigo-200 text-base outline-none text-gray-300 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                            placeholder="pensionwise@company.com"
-                            required=""
+                            placeholder=""
+                            
                             />
                         </div>
+                        {/* {srenderEmailError} */}
                         <div>
-                            <label
-                            htmlFor="password"
-                            className="block mb-2 text-sm font-medium text-white"
-                            >
-                            Password
-                            </label>
-                            <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            placeholder="••••••••"
-                            className="w-full bg-white  rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-1 focus:ring-indigo-200 text-base outline-none text-gray-300 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                            required=""
-                            />
+                                <label
+                                htmlFor="password"
+                                className="block mb-2 text-sm font-medium text-white"
+                                >
+                                Password
+                                </label>
+                                <input
+                                type="password"
+                                name="password"
+                                id="password"
+                                onChange={formik.handleChange}
+                                value={formik.values.password}
+                                placeholder="••••••••"
+                                className="w-full bg-white  rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-1 focus:ring-indigo-200 text-base outline-none text-gray-300 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                />
                         </div>
+                        {/* {srenderPasswordError} */}
                         <div className="flex items-center justify-between">
                             <div className="flex items-start">
                             <div className="flex items-center h-5">
