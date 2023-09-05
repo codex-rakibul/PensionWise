@@ -83,7 +83,16 @@ export default function PensionForm() {
             },
             rejection_msg:"",
             // main Data
-            values,
+            fullName: values.fullName,
+            fathersName:values.fathersName,
+            mothersName: values.mothersName,
+            postalCode: values.postalCode,
+            nidNumber: values.nidNumber,
+            retiredAddress: values.retiredAddress,
+            joinDate: values.joinDate,
+            retiredDate: values.retiredDate,
+            basicSalary: values.basicSalary,
+            authorPhoneNo: values.authorPhoneNo,
           };
           // Store Pension Form Data
           dispatch(addPensionForm(pensionFormData));
