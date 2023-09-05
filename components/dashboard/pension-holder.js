@@ -1,9 +1,10 @@
-import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from '@ant-design/icons';
+import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined, DownloadOutlined } from '@ant-design/icons';
 import { Button, Steps, message, theme } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import Link from 'next/link';
+import jsPDF from 'jspdf';
 
 function PensionHolder() {
     const [localStorage_user_id, setLocalStorage_user_id] = useState();
@@ -27,6 +28,31 @@ function PensionHolder() {
     // Match userId in PensionForm
     const matchingUser = allPensionForm.allPensionFormData.find((user) => user.userId === localStorage_user_id);
     console.log("Form-----", matchingUser);
+
+    // Download PDF
+    const handleDownloadPDF = () => {
+        // Create a new jsPDF instance
+        const pdf = new jsPDF();
+        const content = `
+            Pension Holder Information:
+            Full Name: ${matchingUser?.fullName}
+            Father's Name: ${matchingUser?.fathers_name}
+            Mother's Name: ${matchingUser?.mothers_name}
+            NID Number: ${matchingUser?.nid_number}
+            Postal Code: ${matchingUser?.postal_code}
+            Retirement Address: ${matchingUser?.retried_address}
+            Join Date: ${matchingUser?.join_date}
+            Retirement Date: ${matchingUser?.retried_date}
+            Basic Salary: ${matchingUser?.basic_salary}
+            Phone Number: ${matchingUser?.phone_no}
+            Total Pension: ${matchingUser?.total_pension}
+        `
+        // Add the content to the PDF
+        pdf.text(content, 10, 10);
+    
+        // Save the PDF with a filename
+        pdf.save('PensionHolderInfo.pdf');
+      };
 
     //All Procces step
     const description1 = 'Junior Officer verifed your application.';
@@ -64,7 +90,7 @@ function PensionHolder() {
     const applySection = (
          <div>
             {/* Pension Service Item Start */}
-            <div className="p-4 md:w-1/3 py-32">
+            <div className="p-4 md:w-1/3 pt-32">
                 <div className="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
                     <div className="flex items-center mb-3">
                         <div className="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
@@ -101,21 +127,22 @@ function PensionHolder() {
 
     // Others Data
     const renderData = (
-        <div className="container w-full mx-auto py-32">
+        <div className="container w-full mx-auto pt-12 pb-32">
                 <div className="w-full px-4 md:px-0 md:mt-8 mb-16 text-gray-800 leading-normal">
                 {/*Console Content*/}
-                <div className="flex flex-wrap">
-                    <div className="w-full md:w-1/2 xl:w-1/3 p-3">
+                <div className="flex justify-center ">
+                    <div className=" w-full md:w-1/3 ">
                     {/*Metric Card*/}
-                    <div className="bg-white border rounded shadow p-2">
+                    <div className="bg-white border rounded shadow" onClick={()=>handleDownloadPDF()}>
                         <div className="flex flex-row items-center">
                         <div className="flex-shrink pr-4">
                             <div className="rounded p-3 bg-green-600">
+                            <DownloadOutlined className='text-white text-2xl'/>
                             <i className="fa fa-wallet fa-2x fa-fw fa-inverse" />
                             </div>
                         </div>
-                        <div className="flex-1 text-right md:text-center">
-                            <h5 className="font-bold uppercase text-gray-500">
+                        <div className="flex-1 text-center">
+                            <h5  className="font-bold uppercase text-gray-500">
                              Download Your Application Form
                             </h5>
                         </div>
@@ -132,7 +159,6 @@ function PensionHolder() {
     // Downlod Form
     const downloadForm =(
         <div>
-
         </div>
     )
 
@@ -142,7 +168,7 @@ function PensionHolder() {
         {/* When user apply pension form then show "pensionProcess" System */}
         {matchingUser?.apply_status ==="apply" ? pensionProcess : ""}
         {/* When process system done then show "pensionProcess" System */}
-        {matchingUser?.apply_status ==="done" ? renderData : ""}
+        {(matchingUser?.apply_status ==="done"|| matchingUser?.apply_status ==="apply" || matchingUser?.form_status.head_offficer === "success") ? renderData : ""}
     </>;
 }
 

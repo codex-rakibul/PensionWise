@@ -122,8 +122,6 @@ export default function HeaderComponent() {
                             </div>
                           );
                         }
-
-                        return null; // Return null for links that shouldn't be shown
                       })}
                     </ul>
                   </div>
