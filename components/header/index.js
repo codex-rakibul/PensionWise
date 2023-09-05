@@ -42,7 +42,6 @@ export default function HeaderComponent() {
     const userAuth_LocalStorageData = JSON.parse(localStorage.getItem("user_id"));
     console.log("Navbar---------",userAuth_LocalStorageData);
     setLocalStorage_userData(userAuth_LocalStorageData);
-
   }, [loginData]);
   
   
@@ -83,7 +82,7 @@ export default function HeaderComponent() {
                         if (
                           ((localStorage_userData?.length > 0) &&
                             (id === "dashboard" || id === "about" || id === "logout")) ||
-                          ((localStorage_userData?.length <= 0) && ( id === "about" || id === "signin"))
+                          ((localStorage_userData?.length <= 0 || localStorage_userData === null || localStorage_userData === undefined) && ( id === "about" || id === "signin"))
                         ) {
                           return (
                             <div
