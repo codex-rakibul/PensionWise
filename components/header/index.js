@@ -43,6 +43,7 @@ export default function HeaderComponent() {
     console.log("Navbar---------",userAuth_LocalStorageData);
     setLocalStorage_userData(userAuth_LocalStorageData);
   }, [loginData]);
+  console.log("checking nav---------", localStorage_userData);
   
   
 
@@ -82,7 +83,7 @@ export default function HeaderComponent() {
                         if (
                           ((localStorage_userData?.length > 0) &&
                             (id === "dashboard" || id === "about" || id === "logout")) ||
-                          ((localStorage_userData?.length <= 0 || localStorage_userData === null || localStorage_userData === undefined) && ( id === "about" || id === "signin"))
+                          ((localStorage_userData?.length <= 0 || localStorage_userData === null || localStorage_userData === undefined || localStorage_userData === "") && ( id === "about" || id === "signin"))
                         ) {
                           return (
                             <div
