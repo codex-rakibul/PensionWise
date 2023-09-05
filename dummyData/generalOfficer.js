@@ -1,6 +1,6 @@
-export const GeneralOfficer = [
+export const allGeneralOfficerData = [
     {
-        userId: "hjugfihszghousrhoguhsropighoi1434",
+        userId: "hjugfihszghousrhoguhsropighoi1",
         complains:1,
     },
     {

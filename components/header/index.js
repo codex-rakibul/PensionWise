@@ -34,29 +34,28 @@ export default function HeaderComponent() {
   const [toggle, setToggle] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
-  
   // Check For Login
   const loginData = useSelector((state) => state.allUserReducer);
 
-  // Get User_id Value in LocalStorage
+  // Get User Value in LocalStorage
   useEffect(() => {
     const userAuth_LocalStorageData = JSON.parse(localStorage.getItem("user_id"));
     console.log("Navbar---------",userAuth_LocalStorageData);
     setLocalStorage_userData(userAuth_LocalStorageData);
+
   }, [loginData]);
+  
+  
 
   // Toggle Button
   const handleAcount = () => {
     setToggle(!toggle);
   };
-
-  // Logout Function
   const handleLogout = () =>{
     localStorage.setItem("user_id", JSON.stringify(""));
     dispatch(addAuthUserId("Null"));
     router.push("/");
   }
-
 
   const renderData = (
     <div className="">

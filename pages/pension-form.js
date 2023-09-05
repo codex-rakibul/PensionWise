@@ -24,7 +24,7 @@ export default function PensionForm() {
   // Get User_id  in LocalStorage
   useEffect(() => {
     const userAuth_LocalStorageData = JSON.parse(localStorage.getItem('user_id'));
-    console.log('PensionForm_userId---------', userAuth_LocalStorageData);
+    // console.log('PensionForm_userId---------', userAuth_LocalStorageData);
     setLocalStorage_user_id(userAuth_LocalStorageData);
   }, [loginData]);
 
@@ -66,7 +66,7 @@ export default function PensionForm() {
     // Handle form submission here
     onSubmit: (values) => {
        // console.log("Submitted data:", values);
-       
+
       // Checking user Authentication
       if(localStorage_user_id?.length > 0){
         // Checking user already apply to this pension form

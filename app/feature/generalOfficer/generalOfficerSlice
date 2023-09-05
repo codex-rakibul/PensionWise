@@ -1,0 +1,31 @@
+import { createSlice } from "@reduxjs/toolkit";
+import { allGeneralOfficerData } from "@/dummyData/generalOfficer";
+
+const initialGeneralOfficerData = {
+  allGeneralOfficerData: allGeneralOfficerData, 
+};
+
+const generalOfficerSlice = createSlice({
+  name: "form",
+  initialState: initialGeneralOfficerData,
+  reducers: {
+    addGeneralOfficerStatus: (state, action) => {
+      state.allGeneralOfficerData.push(action.payload);
+    },
+    updateGeneralOfficerComplains: (state, action) => {
+      const userIdToUpdate = action.payload;
+      const userToUpdate = state.allGeneralOfficerData.find(
+        (user) => user.userId === userIdToUpdate
+      );
+      if (userToUpdate) {
+        userToUpdate.complains += 1; // Increment complain count
+      }
+    },
+  },
+});
+
+export const {
+    addGeneralOfficerStatus,
+    updateGeneralOfficerComplains,
+} = generalOfficerSlice.actions;
+export default generalOfficerSlice.reducer;

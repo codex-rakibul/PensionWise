@@ -50,7 +50,7 @@ export const allUserData = [
     },
     {
       userId: "hjugfihszghousrhoguhsropighoi1",
-      name: "Rakibul Islam",
+      name: "Shamim",
       email: "rakibul@gmail.com",
       password: "rakibul@gmail.com",
       role:"general-officer",
@@ -59,7 +59,7 @@ export const allUserData = [
       userId: "hjugfihszghousrhoguhsropighoi127",
       name: "Shamim",
       email: "shamim@gmail.com",
-      password: "12345678",
+      password: "shamim@gmail.com",
       role:"head-officer",
     }
   ];

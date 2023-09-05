@@ -1,146 +1,101 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import {
+    DeleteOutlined,
+    CheckOutlined,
+  } from "@ant-design/icons";
+  import { Button, Table, message } from "antd";
+  import { useRouter } from "next/router";
+  import { useDispatch, useSelector } from "react-redux";
+import { updateGenarelOfficerStatus } from '@/app/feature/pensionData/pensionFormSlice';
 
 function GeneralOfficer() {
+    const [localStorage_user_id, setLocalStorage_user_id] = useState();
+    const router = useRouter();
+    const dispatch = useDispatch();
+    // Check For User Route
+    const allUser = useSelector((state) => state.allUserReducer);
+
+    // Pension Form Data
+    const allPensionForm = useSelector((state) => state.allFormReducer);
+    // console.log("allpensionForm----",allPensionForm);
+
+    // All General Officer Data
+    const allGeneralOfficer = useSelector((state) => state.allGeneralOfficerDataReducer);
+
+    // Get userId form Localhost
+    useEffect(() => {
+        const userAuth_LocalStorageData = JSON.parse(localStorage.getItem('user_id'));
+        console.log('Navbar---------', userAuth_LocalStorageData);
+        setLocalStorage_user_id(userAuth_LocalStorageData);
+    }, [allUser]);
+
+
+    // Match User Id
+    const matchingData = allGeneralOfficer.allGeneralOfficer.find((user) => user.userId === localStorage_user_id)
+    // console.log("-----------", matchingData);
+
+    // Accepts Action
+    const handleAcceptForm = (userId) => {
+        // Dispatch the action to update the form_status
+        dispatch(updateGenarelOfficerStatus({ userId, status: "success" }));
+        message.success('Form has been accepted successfully');
+      };
+      
+    // Delete Action
+    const handleDeleteForm = () =>{
+
+    }
+
+    const dataSource = allPensionForm.allPensionFormData
+    .filter((formData) => formData?.apply_status === "apply" && formData?.form_status.junior_officer === "success" && formData?.form_status.general_officer === "waitting") // Filter by apply_status
+    .map((formData, index) => {
+    return {
+      id: index,
+      nid_number: formData?.nid_number, // Add other fields as needed
+      fullName: formData?.fullName,
+      status: formData?.form_status.junior_officer,
+      userId:formData?.userId,
+      // ...
+    };
+  });
+
+  const columns = [
+    { title: "NID", dataIndex: "nid_number" },
+    { title: "Name", dataIndex: "fullName" },
+    { title: "Status", dataIndex: "status" },
+    {
+      title: "Actions",
+      render: (record) => {
+        return (
+          <div className="grid grid-cols-2">
+            <CheckOutlined onClick={() => handleAcceptForm(record.userId)} />
+            <DeleteOutlined
+              style={{ color: "red" }}
+              onClick={() => handleDeleteForm(record.movieData)}
+            />
+          </div>
+        );
+      },
+    },
+  ];
+
     return (
         <>
             {/*Container*/}
-            <div className="container w-full mx-auto pt-20">
-                        <div className="w-full px-4 md:px-0 md:mt-8 mb-16 text-gray-800 leading-normal">
-                        {/*Console Content*/}
-                        <div className="flex flex-wrap">
-                            <div className="w-full md:w-1/2 xl:w-1/3 p-3">
-                            {/*Metric Card*/}
-                            <div className="bg-white border rounded shadow p-2">
-                                <div className="flex flex-row items-center">
-                                <div className="flex-shrink pr-4">
-                                    <div className="rounded p-3 bg-green-600">
-                                    <i className="fa fa-wallet fa-2x fa-fw fa-inverse" />
-                                    </div>
-                                </div>
-                                <div className="flex-1 text-right md:text-center">
-                                    <h5 className="font-bold uppercase text-gray-500">
-                                    Total Revenue
-                                    </h5>
-                                    <h3 className="font-bold text-3xl">
-                                    $3249{" "}
-                                    <span className="text-green-500">
-                                        <i className="fas fa-caret-up" />
-                                    </span>
-                                    </h3>
-                                </div>
-                                </div>
-                            </div>
-                            {/*/Metric Card*/}
-                            </div>
-                            <div className="w-full md:w-1/2 xl:w-1/3 p-3">
-                            {/*Metric Card*/}
-                            <div className="bg-white border rounded shadow p-2">
-                                <div className="flex flex-row items-center">
-                                <div className="flex-shrink pr-4">
-                                    <div className="rounded p-3 bg-pink-600">
-                                    <i className="fas fa-users fa-2x fa-fw fa-inverse" />
-                                    </div>
-                                </div>
-                                <div className="flex-1 text-right md:text-center">
-                                    <h5 className="font-bold uppercase text-gray-500">
-                                    Total Users
-                                    </h5>
-                                    <h3 className="font-bold text-3xl">
-                                    249{" "}
-                                    <span className="text-pink-500">
-                                        <i className="fas fa-exchange-alt" />
-                                    </span>
-                                    </h3>
-                                </div>
-                                </div>
-                            </div>
-                            {/*/Metric Card*/}
-                            </div>
-                            <div className="w-full md:w-1/2 xl:w-1/3 p-3">
-                            {/*Metric Card*/}
-                            <div className="bg-white border rounded shadow p-2">
-                                <div className="flex flex-row items-center">
-                                <div className="flex-shrink pr-4">
-                                    <div className="rounded p-3 bg-yellow-600">
-                                    <i className="fas fa-user-plus fa-2x fa-fw fa-inverse" />
-                                    </div>
-                                </div>
-                                <div className="flex-1 text-right md:text-center">
-                                    <h5 className="font-bold uppercase text-gray-500">New Users</h5>
-                                    <h3 className="font-bold text-3xl">
-                                    2{" "}
-                                    <span className="text-yellow-600">
-                                        <i className="fas fa-caret-up" />
-                                    </span>
-                                    </h3>
-                                </div>
-                                </div>
-                            </div>
-                            {/*/Metric Card*/}
-                            </div>
-                            <div className="w-full md:w-1/2 xl:w-1/3 p-3">
-                            {/*Metric Card*/}
-                            <div className="bg-white border rounded shadow p-2">
-                                <div className="flex flex-row items-center">
-                                <div className="flex-shrink pr-4">
-                                    <div className="rounded p-3 bg-blue-600">
-                                    <i className="fas fa-server fa-2x fa-fw fa-inverse" />
-                                    </div>
-                                </div>
-                                <div className="flex-1 text-right md:text-center">
-                                    <h5 className="font-bold uppercase text-gray-500">
-                                    Server Uptime
-                                    </h5>
-                                    <h3 className="font-bold text-3xl">152 days</h3>
-                                </div>
-                                </div>
-                            </div>
-                            {/*/Metric Card*/}
-                            </div>
-                            <div className="w-full md:w-1/2 xl:w-1/3 p-3">
-                            {/*Metric Card*/}
-                            <div className="bg-white border rounded shadow p-2">
-                                <div className="flex flex-row items-center">
-                                <div className="flex-shrink pr-4">
-                                    <div className="rounded p-3 bg-indigo-600">
-                                    <i className="fas fa-tasks fa-2x fa-fw fa-inverse" />
-                                    </div>
-                                </div>
-                                <div className="flex-1 text-right md:text-center">
-                                    <h5 className="font-bold uppercase text-gray-500">
-                                    To Do List
-                                    </h5>
-                                    <h3 className="font-bold text-3xl">7 tasks</h3>
-                                </div>
-                                </div>
-                            </div>
-                            {/*/Metric Card*/}
-                            </div>
-                            <div className="w-full md:w-1/2 xl:w-1/3 p-3">
-                            {/*Metric Card*/}
-                            <div className="bg-white border rounded shadow p-2">
-                                <div className="flex flex-row items-center">
-                                <div className="flex-shrink pr-4">
-                                    <div className="rounded p-3 bg-red-600">
-                                    <i className="fas fa-inbox fa-2x fa-fw fa-inverse" />
-                                    </div>
-                                </div>
-                                <div className="flex-1 text-right md:text-center">
-                                    <h5 className="font-bold uppercase text-gray-500">Issues</h5>
-                                    <h3 className="font-bold text-3xl">
-                                    3{" "}
-                                    <span className="text-red-500">
-                                        <i className="fas fa-caret-up" />
-                                    </span>
-                                    </h3>
-                                </div>
-                                </div>
-                            </div>
-                            {/*/Metric Card*/}
-                            </div>
-                        </div>
-                        {/*/ Console Content*/}
-                        </div>
+            <div className="container w-full mx-auto py-32">
+                <div className="w-full px-4 md:px-0 md:mt-8 mb-16 text-gray-800 leading-normal">
+                <div>
+                    <h1 className='py-12 text-gray-700 text-2xl'>Your Total Complains :{` ${matchingData?.complains}`}</h1>
+                </div>
+                <h2 className='text-xl'>Pension Holder Form Data:</h2>
+                <Table
+                    dataSource={dataSource}
+                    columns={columns}
+                    pagination={false}
+                    rowKey={(record) => record.id}
+                    className="hoverable-table"
+                ></Table>
+                </div>
             </div>
             {/*/container*/}
         </>

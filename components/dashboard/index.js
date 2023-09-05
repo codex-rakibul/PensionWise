@@ -47,6 +47,6 @@ function DashboardCom() {
         break;
     }
   }
-  return <>{componentToRender}</>;
+  return <div className='ss:overflow-y-hidden overflow-y-auto '>{componentToRender}</div>;
 }
 export default DashboardCom;

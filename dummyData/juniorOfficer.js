@@ -1,7 +1,7 @@
-export const JuniorOfficer = [
+export const allJuniorOfficer = [
     {
-        userId: "hjugfihszghousrhoguhsropighoi1434",
-        complains:1,
+        userId: "hjugfihszghousrhoguhsropighoi144",
+        complains:2,
     },
     {
         userId: "hjugfihszghousrhoguhsropighoi1435",
